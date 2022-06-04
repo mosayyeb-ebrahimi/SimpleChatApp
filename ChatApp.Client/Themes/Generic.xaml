@@ -1,0 +1,135 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:ChatApp.Client.Controls">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Resources/Icons.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="{x:Type local:Dialog}">
+        <Setter Property="Opacity" Value="0" />
+        <Setter Property="IsHitTestVisible" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Dialog}">
+                    <Grid
+                        x:Name="dialogHost"
+                        Background="#2c000000"
+                        IsHitTestVisible="{TemplateBinding IsHitTestVisible}"
+                        Opacity="{TemplateBinding Opacity}">
+                        <Border
+                            x:Name="border"
+                            Margin="0,200,0,0"
+                            Padding="4"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Background="White"
+                            CornerRadius="8"
+                            Opacity="0">
+                            <StackPanel>
+                                <Border
+                                    x:Name="iconContainer"
+                                    Margin="0,-46,0,0"
+                                    Padding="16"
+                                    HorizontalAlignment="Center"
+                                    Background="White"
+                                    CornerRadius="80">
+                                    <Path
+                                        x:Name="dialogIcon"
+                                        Width="42"
+                                        Height="42"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="center"
+                                        Data="{TemplateBinding Icon}"
+                                        Fill="{TemplateBinding IconColor}"
+                                        Stretch="Uniform" />
+                                </Border>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsDialogOpen}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="IsHitTestVisible">
+                                            <DiscreteBooleanKeyFrame KeyTime="0:0:0" Value="True" />
+                                        </BooleanAnimationUsingKeyFrames>
+                                        <DoubleAnimation
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="1"
+                                            Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation
+                                            Storyboard.TargetName="border"
+                                            Storyboard.TargetProperty="Margin"
+                                            To="0,0,0,0"
+                                            Duration="0:0:.3" />
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="border"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="1"
+                                            Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="IsHitTestVisible">
+                                            <DiscreteBooleanKeyFrame KeyTime="0:0:0" Value="False" />
+                                        </BooleanAnimationUsingKeyFrames>
+                                        <DoubleAnimation
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0"
+                                            Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation
+                                            Storyboard.TargetName="border"
+                                            Storyboard.TargetProperty="Margin"
+                                            To="0,200,0,0"
+                                            Duration="0:0:.3" />
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="border"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0"
+                                            Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MessageType}" Value="Success">
+                            <Setter Property="Icon" Value="{StaticResource SuccessGeometry}" />
+                            <Setter Property="IconColor" Value="{StaticResource SuccessGeometryColor}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MessageType}" Value="Error">
+                            <Setter Property="Icon" Value="{StaticResource ErrorGeometry}" />
+                            <Setter Property="IconColor" Value="{StaticResource ErrorGeometryColor}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MessageType}" Value="Info">
+                            <Setter Property="Icon" Value="{StaticResource InfoGeometry}" />
+                            <Setter Property="IconColor" Value="{StaticResource InfoGeometryColor}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MessageType}" Value="Question">
+                            <Setter Property="Icon" Value="{StaticResource QuestionGeometry}" />
+                            <Setter Property="IconColor" Value="{StaticResource QuestionGeometryColor}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MessageType}" Value="None">
+                            <Setter TargetName="iconContainer" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                        <Trigger Property="Icon" Value="{x:Null}">
+                            <Setter TargetName="iconContainer" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

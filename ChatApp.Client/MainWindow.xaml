@@ -1,0 +1,32 @@
+﻿<Window
+    x:Class="ChatApp.Client.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:ChatApp.Client.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:ChatApp.Client"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:ChatApp.Client.ViewModels"
+    xmlns:views="clr-namespace:ChatApp.Client.Views"
+    Title="MainWindow"
+    Width="440"
+    Height="680"
+    FontFamily="Poppins"
+    ResizeMode="CanMinimize"
+    TextElement.FontSize="16"
+    Topmost="True"
+    mc:Ignorable="d">
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModels:SelectRoomViewModel}">
+            <views:SelectRoomView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:ChatViewModel}">
+            <views:ChatView />
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <ContentControl Content="{Binding Navigation.CurrentViewModel}" />
+        <controls:Dialog x:Name="dialog" />
+    </Grid>
+</Window>
